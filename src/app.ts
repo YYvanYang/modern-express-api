@@ -9,6 +9,8 @@ import { requestId } from './middleware/requestId';
 import { apiLimiter } from './middleware/rateLimiter';
 import authRoutes from './routes/auth';
 import userRoutes from './routes/users';
+import swaggerUi from 'swagger-ui-express';
+import { openApiDocument } from './docs';
 
 const app = express();
 
@@ -39,5 +41,10 @@ app.get('/health', (req, res) => {
 
 // 错误处理
 app.use(errorHandler);
+
+// 仅在非生产环境下启用 API 文档
+if (config.nodeEnv !== 'production') {
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openApiDocument));
+}
 
 export default app;
