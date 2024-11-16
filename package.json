@@ -5,8 +5,8 @@
     "build": "tsc",
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "start": "node ./build/server.js",
-    "generate": "drizzle-kit generate:pg",
-    "migrate": "drizzle-kit push:pg",
+    "generate": "drizzle-kit generate",
+    "migrate": "drizzle-kit push",
     "studio": "drizzle-kit studio"
   },
   "dependencies": {
