@@ -2,18 +2,16 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Install dependencies
+# Install ALL dependencies first (including dev dependencies)
 COPY package*.json ./
 RUN npm ci
 
-# Copy source code
+# Copy source code and build
 COPY . .
-
-# Build TypeScript
 RUN npm run build
 
-# Remove development dependencies
-RUN npm prune --production
+# Clean and install only production dependencies
+RUN npm ci --omit=dev
 
 FROM node:20-alpine AS runner
 
@@ -21,7 +19,7 @@ WORKDIR /app
 
 # Install production dependencies
 COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/build ./build
 COPY --from=builder /app/package*.json ./
 
 # Create non-root user
