@@ -1,40 +1,8 @@
-import { Request, Response, NextFunction } from 'express';
-import { config } from '../config';
-import { AppError } from '../utils/errors';
+import type { ErrorRequestHandler } from 'express';
 
-export const errorHandler = (
-  err: Error,
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  console.error(err);
-
-  if (err instanceof AppError) {
-    return res.status(err.statusCode).json({
-      error: {
-        code: err.code,
-        message: err.message,
-        details: err.details,
-        request_id: req.id,
-        timestamp: new Date().toISOString()
-      }
-    });
-  }
-
-  const error = {
-    code: 'INTERNAL_SERVER_ERROR',
-    message: 'An unexpected error occurred',
-    request_id: req.id,
-    timestamp: new Date().toISOString()
-  };
-
-  if (config.nodeEnv === 'development') {
-    Object.assign(error, {
-      stack: err.stack,
-      details: err
-    });
-  }
-
-  res.status(500).json({ error });
+export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
+  res.status(err.status || 500).json({
+    message: err.message || '服务器内部错误',
+    stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+  });
 };
