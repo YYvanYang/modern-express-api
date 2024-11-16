@@ -7,7 +7,15 @@
     "start": "node ./build/server.js",
     "generate": "drizzle-kit generate",
     "migrate": "drizzle-kit push",
-    "studio": "drizzle-kit studio"
+    "studio": "drizzle-kit studio",
+    "db:wait": "ts-node scripts/wait-for-db.ts",
+    "db:migrate": "npm run db:wait && drizzle-kit push:pg",
+    "docker:build": "docker compose build",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f",
+    "docker:ps": "docker compose ps",
+    "docker:dev": "docker compose watch"
   },
   "dependencies": {
     "@anatine/zod-openapi": "^2.2.6",

@@ -1,0 +1,20 @@
+-- 创建应用角色
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'api_user') THEN
+        CREATE ROLE api_user WITH LOGIN PASSWORD 'api_password';
+    END IF;
+END
+$$;
+
+-- 授权
+GRANT CONNECT ON DATABASE modern_api TO api_user;
+GRANT USAGE ON SCHEMA public TO api_user;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO api_user;
+GRANT USAGE ON ALL SEQUENCES IN SCHEMA public TO api_user;
+
+-- 设置默认权限
+ALTER DEFAULT PRIVILEGES IN SCHEMA public 
+    GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO api_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public 
+    GRANT USAGE ON SEQUENCES TO api_user;
