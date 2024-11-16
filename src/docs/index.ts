@@ -26,6 +26,38 @@ export const openApiDocument: OpenAPIObject = {
         scheme: 'bearer',
         bearerFormat: 'JWT'
       }
+    },
+    responses: {
+      Unauthorized: {
+        description: 'Unauthorized',
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/components/schemas/Error'
+            }
+          }
+        }
+      },
+      Forbidden: {
+        description: 'Forbidden',
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/components/schemas/Error'
+            }
+          }
+        }
+      },
+      NotFound: {
+        description: 'Not Found',
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/components/schemas/Error'
+            }
+          }
+        }
+      }
     }
   },
   paths: {
@@ -283,40 +315,6 @@ export const openApiDocument: OpenAPIObject = {
           },
           '404': {
             $ref: '#/components/responses/NotFound'
-          }
-        }
-      }
-    }
-  },
-  components: {
-    responses: {
-      Unauthorized: {
-        description: 'Unauthorized',
-        content: {
-          'application/json': {
-            schema: {
-              $ref: '#/components/schemas/Error'
-            }
-          }
-        }
-      },
-      Forbidden: {
-        description: 'Forbidden',
-        content: {
-          'application/json': {
-            schema: {
-              $ref: '#/components/schemas/Error'
-            }
-          }
-        }
-      },
-      NotFound: {
-        description: 'Not Found',
-        content: {
-          'application/json': {
-            schema: {
-              $ref: '#/components/schemas/Error'
-            }
           }
         }
       }
