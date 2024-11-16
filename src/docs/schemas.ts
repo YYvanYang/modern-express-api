@@ -22,12 +22,12 @@ export const apiSchemas = {
         properties: {
           code: { type: 'string' },
           message: { type: 'string' },
-          details: { type: 'object' },
+          details: { type: 'string' },
           request_id: { type: 'string' },
-          timestamp: { type: 'string', format: 'date-time' }
+          timestamp: { type: 'string' }
         },
-        required: ['code', 'message', 'timestamp']
+        required: ['code', 'message'] as string[]
       }
     }
-  }
+  } as const
 };
